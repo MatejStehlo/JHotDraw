@@ -20,6 +20,12 @@ import java.awt.datatransfer.Clipboard;
 public class ClipboardUtil {
 
     /**
+     * Prevent instance creation.
+     */
+    private ClipboardUtil() {
+    }
+
+    /**
      * Holds the clipboard service instance.
      */
     private static Clipboard instance;

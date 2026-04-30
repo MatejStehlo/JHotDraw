@@ -22,7 +22,7 @@ public class URIUtil {
     /**
      * Prevent instance creation.
      */
-    private void URIUtil() {
+    private URIUtil() {
     }
 
     /**

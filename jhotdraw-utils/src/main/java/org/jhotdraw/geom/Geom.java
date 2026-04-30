@@ -111,19 +111,7 @@ public class Geom {
      * one point to another one.
      */
     public static int direction(int x1, int y1, int x2, int y2) {
-        int direction = 0;
-        int vx = x2 - x1;
-        int vy = y2 - y1;
-        if (vy < vx && vx > -vy) {
-            direction = OUT_RIGHT;
-        } else if (vy > vx && vy > -vx) {
-            direction = OUT_TOP;
-        } else if (vx < vy && vx < -vy) {
-            direction = OUT_LEFT;
-        } else {
-            direction = OUT_BOTTOM;
-        }
-        return direction;
+        return direction((double) x1, (double) y1, (double) x2, (double) y2);
     }
 
     /**
@@ -337,13 +325,7 @@ public class Geom {
      * @return the constrained value
      */
     public static int range(int min, int max, int value) {
-        if (value < min) {
-            value = min;
-        }
-        if (value > max) {
-            value = max;
-        }
-        return value;
+        return (int) range((double) min, (double) max, (double) value);
     }
 
     /**

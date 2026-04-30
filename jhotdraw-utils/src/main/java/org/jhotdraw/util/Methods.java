@@ -25,6 +25,19 @@ public class Methods {
     private Methods() {
     }
 
+    private static Object invokeMethod(Method method, Object obj, Object[] args) throws NoSuchMethodException {
+        try {
+            return method.invoke(obj, args);
+        } catch (IllegalAccessException e) {
+            throw new NoSuchMethodException(method.getName() + " is not accessible");
+        } catch (InvocationTargetException e) {
+            // The method is not supposed to throw exceptions
+            InternalError error = new InternalError(e.getMessage());
+            error.initCause((e.getCause() != null) ? e.getCause() : e);
+            throw error;
+        }
+    }
+
     /**
      * Invokes the specified accessible parameterless method if it exists.
      *
@@ -36,16 +49,8 @@ public class Methods {
      */
     public static Object invoke(Object obj, String methodName)
             throws NoSuchMethodException {
-        try {
-            Method method = obj.getClass().getMethod(methodName, new Class<?>[0]);
-            Object result = method.invoke(obj, new Object[0]);
-            return result;
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            throw new InternalError(e.getMessage());
-        }
+        Method method = obj.getClass().getMethod(methodName, new Class<?>[0]);
+        return invokeMethod(method, obj, new Object[0]);
     }
 
     /**
@@ -59,16 +64,8 @@ public class Methods {
      */
     public static Object invoke(Object obj, String methodName, String stringParameter)
             throws NoSuchMethodException {
-        try {
-            Method method = obj.getClass().getMethod(methodName, new Class<?>[]{String.class});
-            Object result = method.invoke(obj, new Object[]{stringParameter});
-            return result;
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            throw new InternalError(e.getMessage());
-        }
+        Method method = obj.getClass().getMethod(methodName, new Class<?>[]{String.class});
+        return invokeMethod(method, obj, new Object[]{stringParameter});
     }
 
     /**
@@ -81,16 +78,8 @@ public class Methods {
      */
     public static Object invokeStatic(Class<?> clazz, String methodName)
             throws NoSuchMethodException {
-        try {
-            Method method = clazz.getMethod(methodName, new Class<?>[0]);
-            Object result = method.invoke(null, new Object[0]);
-            return result;
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            throw new InternalError(e.getMessage());
-        }
+        Method method = clazz.getMethod(methodName, new Class<?>[0]);
+        return invokeMethod(method, null, new Object[0]);
     }
 
     /**
@@ -137,16 +126,8 @@ public class Methods {
      */
     public static Object invokeStatic(Class<?> clazz, String methodName, Class<?>[] types, Object[] values)
             throws NoSuchMethodException {
-        try {
-            Method method = clazz.getMethod(methodName, types);
-            Object result = method.invoke(null, values);
-            return result;
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            throw new InternalError(e.getMessage());
-        }
+        Method method = clazz.getMethod(methodName, types);
+        return invokeMethod(method, null, values);
     }
 
     /**
@@ -287,15 +268,8 @@ public class Methods {
      */
     public static Object invoke(Object obj, String methodName, boolean newValue)
             throws NoSuchMethodException {
-        try {
-            Method method = obj.getClass().getMethod(methodName, new Class<?>[]{Boolean.TYPE});
-            return method.invoke(obj, new Object[]{newValue});
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            throw new InternalError(e.getMessage());
-        }
+        Method method = obj.getClass().getMethod(methodName, new Class<?>[]{Boolean.TYPE});
+        return invokeMethod(method, obj, new Object[]{newValue});
     }
 
     /**
@@ -306,15 +280,8 @@ public class Methods {
      */
     public static Object invoke(Object obj, String methodName, int newValue)
             throws NoSuchMethodException {
-        try {
-            Method method = obj.getClass().getMethod(methodName, new Class<?>[]{Integer.TYPE});
-            return method.invoke(obj, new Object[]{newValue});
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            throw new InternalError(e.getMessage());
-        }
+        Method method = obj.getClass().getMethod(methodName, new Class<?>[]{Integer.TYPE});
+        return invokeMethod(method, obj, new Object[]{newValue});
     }
 
     /**
@@ -325,15 +292,8 @@ public class Methods {
      */
     public static Object invoke(Object obj, String methodName, float newValue)
             throws NoSuchMethodException {
-        try {
-            Method method = obj.getClass().getMethod(methodName, new Class<?>[]{Float.TYPE});
-            return method.invoke(obj, new Object[]{newValue});
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            throw new InternalError(e.getMessage());
-        }
+        Method method = obj.getClass().getMethod(methodName, new Class<?>[]{Float.TYPE});
+        return invokeMethod(method, obj, new Object[]{newValue});
     }
 
     /**
@@ -344,15 +304,8 @@ public class Methods {
      */
     public static Object invoke(Object obj, String methodName, Class<?> clazz, Object newValue)
             throws NoSuchMethodException {
-        try {
-            Method method = obj.getClass().getMethod(methodName, new Class<?>[]{clazz});
-            return method.invoke(obj, new Object[]{newValue});
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            throw new InternalError(e.getMessage());
-        }
+        Method method = obj.getClass().getMethod(methodName, new Class<?>[]{clazz});
+        return invokeMethod(method, obj, new Object[]{newValue});
     }
 
     /**
@@ -363,17 +316,8 @@ public class Methods {
      */
     public static Object invoke(Object obj, String methodName, Class<?>[] clazz, Object... newValue)
             throws NoSuchMethodException {
-        try {
-            Method method = obj.getClass().getMethod(methodName, clazz);
-            return method.invoke(obj, newValue);
-        } catch (IllegalAccessException e) {
-            throw new NoSuchMethodException(methodName + " is not accessible");
-        } catch (InvocationTargetException e) {
-            // The method is not supposed to throw exceptions
-            InternalError error = new InternalError(e.getMessage());
-            error.initCause((e.getCause() != null) ? e.getCause() : e);
-            throw error;
-        }
+        Method method = obj.getClass().getMethod(methodName, clazz);
+        return invokeMethod(method, obj, newValue);
     }
 
     /**

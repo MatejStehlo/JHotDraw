@@ -22,9 +22,9 @@ public class LocaleUtil {
     private static Locale defaultLocale;
 
     /**
-     * Creates a new instance.
+     * Prevent instance creation.
      */
-    public LocaleUtil() {
+    private LocaleUtil() {
     }
 
     public static void setDefault(Locale newValue) {

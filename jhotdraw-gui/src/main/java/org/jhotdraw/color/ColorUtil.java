@@ -284,6 +284,6 @@ public class ColorUtil {
      * Faster fromCIEXYZ method which uses the provided output array.
      */
     public static void CSfromCIEXYZ(NamedColorSpace cs, float[] xyz, float[] colorvalue) {
-        cs.fromCIEXYZ(xyz, xyz);
+        cs.fromCIEXYZ(xyz, colorvalue);
     }
 }
