@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <!--
+    Used by GitHub Actions CI to authenticate against the "github" repository
+    declared in pom.xml (https://maven.pkg.github.com/sweat-tek/MavenRepository).
+    GitHub Packages requires authentication even for read-only access.
+
+    GITHUB_ACTOR and GITHUB_TOKEN are provided automatically by GitHub Actions
+    (see .github/workflows) and must be exported into the environment before
+    Maven is invoked with `-s .maven-settings.xml`.
+  -->
+  <servers>
+    <server>
+      <id>github</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+  </servers>
+</settings>
