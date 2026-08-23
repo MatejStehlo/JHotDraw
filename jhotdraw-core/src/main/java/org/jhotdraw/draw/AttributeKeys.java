@@ -506,14 +506,27 @@ public class AttributeKeys {
     }
 
     public static Font getFont(Figure f) {
+        // Invariant: a caller must never pass a null figure. This is a
+        // programming error (a bug in this code base), not a recoverable
+        // condition an end user could trigger - so it is checked with an
+        // assertion rather than an exception. Contrast this with
+        // FontFormatter, which throws ParseException for malformed *user
+        // input* and lets the program keep running.
+        assert f != null : "getFont: figure must not be null";
         Font prototype = f.get(FONT_FACE);
         if (prototype == null) {
             return null;
         }
+        // Invariant: FONT_SIZE is only ever written through UI controls that
+        // already constrain it to be >= 0 (see JavaNumberFormatter usage in
+        // FontToolBar). A negative size reaching here indicates a bug
+        // elsewhere, not bad external input, so it is also an assertion.
+        Double size = f.get(FONT_SIZE);
+        assert size != null && size >= 0 : "getFont: FONT_SIZE must be a non-negative value, was " + size;
         if (getFontStyle(f) != Font.PLAIN) {
-            return prototype.deriveFont(getFontStyle(f), f.get(FONT_SIZE).floatValue());
+            return prototype.deriveFont(getFontStyle(f), size.floatValue());
         } else {
-            return prototype.deriveFont(f.get(FONT_SIZE).floatValue());
+            return prototype.deriveFont(size.floatValue());
         }
     }
 
