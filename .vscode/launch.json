@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "SVG Sample (Main)",
+      "request": "launch",
+      "mainClass": "org.jhotdraw.samples.svg.Main",
+      "projectName": "jhotdraw-samples-misc"
+    }
+  ]
+}

@@ -44,6 +44,11 @@ public class FontChooserHandler extends AbstractSelectedAction
      */
     public FontChooserHandler(DrawingEditor editor, AttributeKey<Font> key, JFontChooser fontChooser, JPopupMenu popupMenu) {
         super(editor);
+        // Invariant: a null key would mean this handler was wired up wrong
+        // (see ButtonFactory, its only caller) - a programming error, not a
+        // condition that can legitimately occur at runtime, so it is caught
+        // with an assertion rather than an exception.
+        assert key != null : "FontChooserHandler: attribute key must not be null";
         this.key = key;
         this.fontChooser = fontChooser;
         this.popupMenu = popupMenu;
